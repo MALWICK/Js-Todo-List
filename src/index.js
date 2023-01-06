@@ -1,31 +1,38 @@
+// eslint-disable-next-line import/no-unresolved
 import './styles/styles.css';
 
-const plusBtn = document.querySelector('.plus');
-const minusBtn = document.querySelector('.minus');
-const textContainer = document.querySelector('span');
+const todoInput = document.querySelector('.todo-input');
+const todoButton = document.querySelector('.todo-button');
+const todoList = document.querySelector('.todo-list');
 
-let data = 0;
+// Event Listeners
 
-function add() {
-  const value = Math.floor(Math.random() * 1000);
-  data = Math.max(data, value);
-  return value;
+// Functions
+
+function addTodo(e) {
+  // Prevent natural behaviour
+  e.preventDefault();
+  // Create todo div
+  const todoDiv = document.createElement('div');
+  todoDiv.classList.add('todo');
+  // Create list
+  const newTodo = document.createElement('li');
+  newTodo.innerText = todoInput.value;
+  newTodo.classList.add('todo-item');
+  todoDiv.appendChild(newTodo);
+  todoInput.value = '';
+  // Create Completed Button
+  const completedButton = document.createElement('button');
+  completedButton.innerHTML = '<i class="fas fa-check"></i>';
+  completedButton.classList.add('complete-btn');
+  todoDiv.appendChild(completedButton);
+  // Create trash button
+  const trashButton = document.createElement('button');
+  trashButton.innerHTML = '<i class="fas fa-trash"></i>';
+  trashButton.classList.add('trash-btn');
+  todoDiv.appendChild(trashButton);
+  // attach final Todo
+  todoList.appendChild(todoDiv);
 }
 
-function sub() {
-  const value = Math.floor(Math.random() * 1000);
-  data = Math.min(data, value);
-  return value;
-}
-
-function displayValue(now, text = data) {
-  textContainer.innerHTML = `${text} (${now})`;
-}
-
-plusBtn.addEventListener('click', () => {
-  displayValue(add());
-});
-
-minusBtn.addEventListener('click', () => {
-  displayValue(sub());
-});
+todoButton.addEventListener('click', addTodo);
